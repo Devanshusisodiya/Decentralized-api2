@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors');
 const app = express()
@@ -10,7 +11,7 @@ app.use(function(req, res, next) {
   })
 
 const mongoose = require('mongoose')
-const uri = "mongodb+srv://test_user:test_password@cluster0.vwzh7.mongodb.net/ddb1?retryWrites=true&w=majority"
+const uri = process.env.DATABASE_URI
 mongoose.connect(
     uri,
     {
@@ -22,7 +23,7 @@ const db = mongoose.connection
 db.on('error', (error) => console.log(error))
 db.once('open', ()=> console.log('Connected to Database'))
 
-const PORT = 8000
+const PORT = process.env.PORT || 3000
 const apiRoutes = require('./routes/routes_handling')
 
 app.use(express.json())
